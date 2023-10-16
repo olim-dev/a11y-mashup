@@ -8,27 +8,27 @@ const Line = () => {
     const elementRef = useRef();
     const vizRef = useRef();
 
-    useEffect( () => {
+    useEffect(() => {
         if (!nebula) return;
 
         async function render() {
             vizRef.current = await nebula.render({
                 element: elementRef.current,
-                type: 'line',   
-                plugins: [linePluginNew],     
+                type: 'line',
+                plugins: [linePluginNew],
                 fields: [
                     {
                         qDef: {
-                        qFieldDefs: ['[Account Billing Country]'],
-                        qFieldLabels: ['Country'],
-                          autoSort: false,
-                          qSortCriterias: [
-                              {
-                                qSortByExpression: -1,
-                                qExpression: {
-                                  qv: 'Sum([Opportunity Amount])',
+                            qFieldDefs: ['[Account Billing Country]'],
+                            qFieldLabels: ['Country'],
+                            autoSort: false,
+                            qSortCriterias: [
+                                {
+                                    qSortByExpression: -1,
+                                    qExpression: {
+                                        qv: 'Sum([Opportunity Amount])',
+                                    },
                                 },
-                              },
                             ],
                         },
                     },
@@ -40,29 +40,20 @@ const Line = () => {
                     },
                 ],
                 properties: {
-                    title: 'Sales by region',                },
+                    title: 'Sales by region',
+                },
             });
         }
         render();
-      }, [nebula]);
+    }, [nebula]);
 
-
-      // Show table view with pressing the Enter key, revert back to the visualization when pressing the Escape key
-      const handleKeyDown = (e) => {
-          if (e.which === 13) {
-              vizRef.current.convertTo('table');        
-          }
-          if(e.which === 27) {
-              vizRef.current.convertTo('line');
-          }
-      }
 
     return (
-        <>  
+        <>
             <h3>Nebula.js Rendered Line Chart</h3>
             <p>A description of the chart that explains in detail the chart for screen readers</p>
             <div className="sr-only">[This text is hidden for screen readers only] Explain here how to toggle between the chart view and the data table view by clicking on the Enter key and the Escape key and navigating the rows with Up/Down arrows.</div>
-            <div id="barViz" ref={elementRef} style={{ height: 500}} onKeyDown={handleKeyDown}></div>
+            <div id="barViz" ref={elementRef} style={{ height: 500 }} onKeyDown={handleKeyDown}></div>
         </>
     );
 }
